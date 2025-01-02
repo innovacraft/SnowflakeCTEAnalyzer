@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snowflake CTE Analysis</title>
+</head>
+<body>
+    <h1>Enter CTE for Analysis</h1>
+    <form method="post">
+        Schema: <input type="text" name="schema" value="{{ schema }}" required><br>
+        SQL Query (CTE): <textarea name="sql_query" required>{{ sql_query }}</textarea><br>
+        <button type="submit">Analyze CTE</button>
+    </form>
+    {% if results %}
+        <h2>Results:</h2>
+        {% for cte_name, result in results.items() %}
+            <div>
+                <h3>{{ cte_name }} Results:</h3>
+                <div>Row Count: {{ result.row_count }}</div>
+                <div>Duplicate Count: {{ result.duplicate_count }}</div>
+                <h4>Duplicate Rows:</h4>
+                {{ result.duplicates | safe }}
+                <h4>Sample Results:</h4>
+                {{ result.result | safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if error %}
+        <h2>Error:</h2>
+        <p>{{ error }}</p>
+    {% endif %}
+</body>
+</html>

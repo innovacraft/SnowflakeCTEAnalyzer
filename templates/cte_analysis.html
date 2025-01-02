@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflake CTE Analysis</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+        header a:hover {
+            background-color: #0056b3;
+        }
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-top: 20px; /* Spacing from the header */
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        input, textarea {
+            width: 100%; /* Full width minus padding */
+            padding: 10px;
+            margin-top: 2px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            box-sizing: border-box; /* Includes padding and border in element's total width and height */
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .results, .error {
+            background-color: white;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .result-section {
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/">Home</a>
+        <a href="/login">Login</a>
+        <a href="/analyze">CTE Analyzer</a>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Enter CTE for Analysis</h1>
+            <form method="post">
+                <label for="schema">Schema:</label>
+                <input type="text" name="schema" id="schema" required>
+                <label for="sql_query">SQL Query (CTE):</label>
+                <textarea id="sql_query" name="sql_query" required></textarea>
+                <button type="submit">Analyze CTE</button>
+            </form>
+        </div>
+        {% if results %}
+        <div class="results">
+            <h2>Results:</h2>
+            {% for cte_name, result in results.items() %}
+            <div class="result-section">
+                <h3>{{ cte_name }} Results:</h3>
+                <p>Row Count: {{ result.row_count }}</p>
+                <p>Duplicate Count: {{ result.duplicate_count }}</p>
+                <h4>Duplicate Rows:</h4>
+                {{ result.duplicates | safe }}
+                <h4>Sample Results:</h4>
+                {{ result.result | safe }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if error %}
+        <div class="error">
+            <h2>Error:</h2>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+    </main>
+</body>
+</html>

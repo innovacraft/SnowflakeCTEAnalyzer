@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Snowflake CTE Analyzer{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='snowflake_logo.png') }}" alt="Snowflake Logo" style="height: 60px;">
+        <h1>Snowflake CTE Analyzer</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('analyze_cte') }}">CTE Analyzer</a></li>
+        </ul>
+    </nav>
+    <div class="main-content">
+        {% block body %}{% endblock %}
+    </div>
+    <footer>
+        © 2024 Snowflake CTE Tools
+    </footer>
+</body>
+</html>
